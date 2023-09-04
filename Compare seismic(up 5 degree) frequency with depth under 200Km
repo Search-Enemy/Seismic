@@ -1,0 +1,47 @@
+clear all;clf;
+% read '.txt'
+filename1 = '2022under200km.txt'; % under 200km earthquake in 2022
+
+filename = '2022upfive.txt'; % five degree earthquake in 2022
+% split data with '|' 
+data = readtable(filename, 'Delimiter', '|');
+% read data
+latitudes = table2array(data(:,3));
+longitudes =table2array(data(:,4));
+% Figure distribution of global seismic station
+figure(1);
+subplot(1,2,1);
+worldmap('world');
+load coastlines;
+plotm(coastlat, coastlon, 'black');
+% Load topography
+load topo; 
+geoshow(topo, topolegend, 'DisplayType', 'texturemap'); 
+% Load station
+geoshow(latitudes, longitudes, 'DisplayType', 'point', 'Marker', 'o', 'MarkerSize', 2, 'MarkerFaceColor', 'red');
+title('Global Seismic Station Distribution(up 5 degree)');
+
+subplot(1,2,2);
+% split data with '|' 
+data1 = readtable(filename1, 'Delimiter', '|');
+% read data
+latitudes1 = table2array(data1(:,3));
+longitudes1 =table2array(data1(:,4));
+worldmap('world');
+load coastlines;
+plotm(coastlat, coastlon, 'black');
+% Load topography
+load topo; 
+geoshow(topo, topolegend, 'DisplayType', 'texturemap'); 
+% Load station
+geoshow(latitudes1, longitudes1, 'DisplayType', 'point', 'Marker', 'o', 'MarkerSize', 2, 'MarkerFaceColor', 'red');
+title('Global Seismic Station Distribution(under 200Km)');
+% Figure bar of amount of seismic events.
+figure(2)
+length50 = length(latitudes);
+length200 = length(latitudes1);
+bardata = [length50,length200];
+bar(bardata);
+xlabel('50            200');  
+ylabel('Number');
+title('Amount(left is up50degree,right is under 200Km)');
