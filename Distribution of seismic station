@@ -1,0 +1,20 @@
+clear all;clf;%wilber-stations.txt
+% read '.txt'
+filename = 'wilber-stations.txt'; 
+% split data with '|' 
+data = readtable(filename, 'Delimiter', '|');
+% read data
+latitudes = table2array(data(:,4));
+longitudes =table2array(data(:,5));
+% Figure distribution of global seismic station
+figure(1);
+worldmap('world');
+load coastlines;
+plotm(coastlat, coastlon, 'black');
+% Load topography
+load topo; 
+geoshow(topo, topolegend, 'DisplayType', 'texturemap'); 
+% Load station
+geoshow(latitudes, longitudes, 'DisplayType', 'point', 'Marker', 'o', 'MarkerSize', 5, 'MarkerFaceColor', 'red');
+title('Global Seismic Station Distribution');
+colorbar; 
