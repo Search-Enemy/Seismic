@@ -1,0 +1,24 @@
+clear all;clf;%wilber-stations.txt
+% read '.txt'
+filename = 'wilber-stations_china.txt';  
+% split data with '|' 
+data = readtable(filename, 'Delimiter', '|');
+% read data
+latitudes = table2array(data(:,4));
+longitudes =table2array(data(:,5));
+% Figure distribution of global seismic station
+figure(1)
+ax = axesm('MapProjection', 'mercator', 'MapLatLimit', [0 60], 'MapLonLimit', [60 140]);
+setm(ax, 'MeridianLabel', 'on', 'ParallelLabel', 'on', 'MLineLocation', 10, 'PLineLocation', 10, 'MLabelParallel', 'south');
+% Load outline
+load coastlines
+geoshow(coastlat, coastlon, 'Color', 'black', 'LineWidth', 1);
+% Load topography
+load topo; 
+geoshow(topo, topolegend, 'DisplayType', 'texturemap'); 
+% Load station
+geoshow(latitudes, longitudes, 'DisplayType', 'point', 'Marker', 'v', 'MarkerSize', 6, 'MarkerFaceColor', 'red');
+title('Seismic stations in China');
+gridm on;
+framem on;
+colorbar; 
