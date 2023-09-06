@@ -1,0 +1,31 @@
+clc;clear;close all;
+%load data
+data= xlsread('重力异常.xlsx'); 
+x = data(:,1);               
+xmax = max(x);                                         
+xmin = min(x);
+y = data(:,2);
+ymax = max(y);
+ymin = min(y);
+z = data(:,3);                                    
+N = 45;                                              
+[X,Y] = meshgrid(linspace(xmin,xmax,N),linspace(ymin,ymax,N));
+Z = griddata(x,y,z,X,Y,'v4');
+%Equal thickness image of BRENT(2D)
+figure(1)
+contourf(X,Y,Z,N, 'LineColor','none');  
+title('Value of Anomaly(2D)')
+colormap('JET');                                    
+xlabel('EX')
+ylabel('NY')
+colorbar;
+%Equal thickness image of BRENT(3D)             
+figure(2)
+mesh(X,Y,Z)
+title('Value of Anomaly(3D)')
+colormap('JET');                                    
+xlabel('EX')
+ylabel('NY')
+zlabel('T0')
+% set (gca,'ZDir','reverse')
+colorbar;
